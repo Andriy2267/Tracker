@@ -22,7 +22,7 @@ namespace Tracker.Models
         }
 
         [NotMapped]
-        public string? FormattedAmount
+        public string ? FormattedAmount
         {
             get
             {
