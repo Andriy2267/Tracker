@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using Tracker.Database;
 using Tracker.Models;
 
@@ -38,8 +39,20 @@ namespace Tracker.Controllers
 
             // Balance
             int Balance = TotalIncome - TotalExpense;
-            ViewBag.Balance = Balance.ToString("C0");
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+            culture.NumberFormat.CurrencyNegativePattern = 1;
+            ViewBag.Balance = String.Format(culture, "{0:C0}", Balance);
 
+            // Doughnut Chart - Expense by category
+            ViewBag.DoughnutChartData = SelectedTransactions
+                .Where(i => i.Category.Type == "Expense")
+                .GroupBy(j => j.Category.CategoryId)
+                .Select(k => new
+                {
+                    categoryTitleWithIcon = k.First().Category.Icon + " " + k.First().Category.Title,
+                    amount = k.Sum(j => j.Amount),
+                    formattedAmount = k.Sum(j => j.Amount).ToString("C0"),
+                }).ToList();
             return View();
         }
     }
