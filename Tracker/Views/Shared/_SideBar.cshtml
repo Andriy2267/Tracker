@@ -10,7 +10,7 @@
     {
         text = "Dashboard",
         url = "/",
-        iconCss = "fa-solid fa-box" 
+        iconCss = "fa-solid fa-box"
     });
     menuItems.Add(new
     {
@@ -40,7 +40,7 @@
         text = "Reports",
         iconCss = "fa-solid fa-chart-simple",
         url = "#"
-    });menuItems.Add(new
+    }); menuItems.Add(new
     {
         text = "Settings",
         iconCss = "fa-solid fa-gear",
@@ -48,8 +48,17 @@
     });
 }
 
-<ejs-sidebar id="sidebar" width="290px">
+<ejs-sidebar id="sidebar" width="290px" enableDock dockSize="100px" target=".dock-target" enableGestures>
     <e-content-template>
+
+        <div class="logo-wrapper">
+            <div class="app-logo">
+                <img class="profile-pic" src="~/favicon-32x32.png" />
+            </div>
+            <div class="w-100"></div>
+            <i id="sidebar-toggler" class="fa-solid"></i>
+        </div>
+
         <div class="profile-wrapper">
             <img class="profile-pic" src="~/photo_2024-02-02_20-37-58.jpg" />
             <div class="titles d-flex flex-column ps-3">
@@ -58,7 +67,16 @@
             </div>
         </div>
         <ejs-menu id="menu" items="menuItems"
-        orientation="Vertical"
-        hamburgerMode></ejs-menu>
+                  orientation="Vertical"
+                  hamburgerMode></ejs-menu>
     </e-content-template>
 </ejs-sidebar>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        dockBar = document.getElementById('sidebar').ej2_instances[0];
+        document.getElementById('sidebar-toggler').onclick = function() {
+            dockBar.toggle();
+        };
+    });
+</script>
